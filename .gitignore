@@ -40,3 +40,6 @@ bower.json
 
 # Ignore Byebug command history file.
 .byebug_history
+
+# IntelliJ IDEs info
+.idea/*
