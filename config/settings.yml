@@ -1,0 +1,4 @@
+plugins:
+  user_feedback_enabled:
+    default: true
+    client: true
