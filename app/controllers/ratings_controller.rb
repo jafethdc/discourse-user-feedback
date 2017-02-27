@@ -13,7 +13,7 @@ class ::UserFeedback::RatingsController < ::ApplicationController
   end
 
   def create
-    rating = PostCreator.new(@user, rating_params).create
+    rating = PostCreator.new(current_user, rating_params).create
     if rating.persisted?
       # We could notify the user here
       serializer = UserFeedback::RatingSerializer
