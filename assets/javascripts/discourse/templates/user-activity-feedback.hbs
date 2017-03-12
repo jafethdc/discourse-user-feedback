@@ -1,1 +1,11 @@
-{{mount-widget widget="ratings" args=model}}
+{{#if model.noContent}}
+    <div class='no-content'>
+        {{{model.noContentHelp}}}
+    </div>
+{{/if}}
+{{mount-widget widget="rating-composer"}}
+{{#user-stream stream=model}}
+    {{#each model.content as |item|}}
+        {{rating-item item=item removeBookmark="removeBookmark"}}
+    {{/each}}
+{{/user-stream}}

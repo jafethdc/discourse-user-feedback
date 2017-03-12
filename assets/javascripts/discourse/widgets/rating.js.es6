@@ -1,18 +1,19 @@
 import { createWidget } from 'discourse/widgets/widget';
 import { h } from 'virtual-dom';
-import template from '../widgets/templates/rating';
 
 export default createWidget('rating', {
     tagName: 'div.rating',
 
-    defaultState(attrs) {
-        return {
-            post: attrs,
+    html(attrs){
+        console.log('rating!: ');
+        console.log(attrs);
+        let rating = attrs;
+        let stars = [];
+        for(let i=0;i<5;i++){
+            let isFull = i < rating ? '.full' : '';
+            stars.push(h('span.star-icon'+isFull,'☆'));
         }
-    },
-
-    html(){
-        return template.render(this);
+        return stars;
     }
 });
 

@@ -1,18 +1,17 @@
-import Topic from 'discourse/models/topic'
-import { ajax } from 'discourse/lib/ajax'
+import UserActivityStreamRoute from "discourse/routes/user-activity-stream";
+import UserAction from "discourse/models/user-action";
+import RatingsStream from '../models/ratings-stream';
 
-export default Discourse.Route.extend({
+export default UserActivityStreamRoute.extend({
+    userActionType: UserAction.TYPES["posts"],
     model(){
         let user = this.modelFor("user");
-
-        return ajax(`/user-feedback/users/${user.id}.json`,{
-            type: 'GET'
-        }).then((data)=>{
-            console.log(data);
-            let topic = Topic.create(data);
-            console.log(topic);
-            return topic.post_stream;
-        });
-
+        return RatingsStream.create({ user: user });
     },
+    afterModel(model, transition){
+        model.filterBy(this.get("userActionType"), this.get("noContentHelpKey"));
+    },
+    renderTemplate(){
+        this.render('user-activity-feedback');
+    }
 });

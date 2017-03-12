@@ -4,9 +4,9 @@
 # authors: Jafeth Díaz
 # url: https://github.com/JafethDC/discourse-user-feedback
 
-register_asset 'stylesheets/user-feedback.scss'
-
 enabled_site_setting :user_feedback_enabled
+
+register_asset 'stylesheets/user-feedback.scss'
 
 def plugin_require(path)
   require Rails.root.join('plugins', 'discourse-user-feedback', 'app', path).to_s
@@ -18,33 +18,24 @@ after_initialize do
   plugin_require 'routes/user-feedback'
   plugin_require 'routes/discourse'
 
-  plugin_require 'controllers/ratings_controller'
+  plugin_require 'models/guardian'
+  plugin_require 'models/user_action'
 
-  plugin_require 'serializers/feedback_topic_serializer'
   plugin_require 'serializers/rating_serializer'
 
-  plugin_require 'models/guardian'
+  plugin_require 'controllers/ratings_controller'
 
   User.register_custom_field_type('feedback_topic_id', :integer)
-  Post.register_custom_field_type('feedback_rating', :integer)
 
   if SiteSetting.user_feedback_enabled
     add_to_serializer(:user, :feedback_topic_id, false) {
       object.custom_fields['feedback_topic_id']
     }
 
-    # This might not be necessary: custom_fields is included in the serializer by default
-    add_to_serializer(:user, :custom_fields, false) {
-      object.custom_fields.nil? ? {} : object.custom_fields
-    }
-
-    add_to_serializer(:post, :feedback_rating, false){
-      object.custom_fields['feedback_rating']
-    }
-
-    add_to_serializer(:post, :custom_fields, false){
-      object.custom_fields.nil? ? {} : object.custom_fields
-    }
+    # We could reuse UserActionSerializer, but rating is not a property applicable to all the user actions...
+    # add_to_serializer(:user_action, :rating, false) {
+    #   Post.find(object.post_id).custom_fields['feedback_rating']
+    # }
   end
 
 
