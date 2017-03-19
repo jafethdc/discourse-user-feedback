@@ -58,3 +58,13 @@ UserAction.instance_eval do
     builder.map_exec(UserAction::UserActionRow)
   end
 end
+
+class ::UserAction
+  module ApplyCommonFilters
+    def apply_common_filters(builder, user_id, guardian, ignore_private_messages=false)
+      builder.where("t.archetype <> :archetype", archetype: 'feedback')
+      super(builder, user_id, guardian, ignore_private_messages)
+    end
+  end
+  singleton_class.prepend ApplyCommonFilters
+end

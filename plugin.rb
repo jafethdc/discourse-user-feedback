@@ -19,7 +19,9 @@ after_initialize do
   plugin_require 'routes/discourse'
 
   plugin_require 'models/guardian'
+  plugin_require 'models/topic_query'
   plugin_require 'models/user_action'
+  plugin_require 'models/user_summary'
 
   plugin_require 'serializers/rating_serializer'
 
