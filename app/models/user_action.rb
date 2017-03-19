@@ -7,6 +7,8 @@ UserAction.instance_eval do
     offset = opts[:offset] || 0
     limit = opts[:limit] || 60
 
+    action_id = opts[:action_id]
+
     # The weird thing is that target_post_id can be null, so it makes everything
     #  ever so more complex. Should we allow this, not sure.
     builder = SqlBuilder.new <<-SQL
@@ -42,12 +44,16 @@ UserAction.instance_eval do
         /*limit*/
     SQL
 
-    builder.where("a.action_type in (:action_types)", action_types: action_types) if action_types && action_types.length > 0
-    builder.where("a.target_topic_id = :target_topic_id", target_topic_id: target_topic_id)
-    builder
-        .order_by("a.created_at desc")
-        .offset(offset.to_i)
-        .limit(limit.to_i)
+    if action_id
+      builder.where("a.id = :id", id: action_id.to_i)
+    else
+      builder.where("a.action_type in (:action_types)", action_types: action_types) if action_types && action_types.length > 0
+      builder.where("a.target_topic_id = :target_topic_id", target_topic_id: target_topic_id)
+      builder
+          .order_by("a.created_at desc")
+          .offset(offset.to_i)
+          .limit(limit.to_i)
+    end
 
     builder.map_exec(UserAction::UserActionRow)
   end

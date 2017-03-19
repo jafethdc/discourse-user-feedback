@@ -38,9 +38,8 @@ class ::UserFeedback::RatingsController < ::ApplicationController
   def create
     rating = PostCreator.new(current_user, rating_params).create
     if rating.persisted?
-      # We could notify the user here
-      serializer = UserFeedback::RatingSerializer
-      render json: serializer.new(rating, scope: self, root: false).as_json , status: :created
+      action = UserAction.where(target_post_id: rating.id, action_type: UserAction::REPLY).first
+      render_serialized(UserAction.ratings(action_id: action.id).first, UserFeedback::RatingSerializer)
     else
       render json: { errors: 'Unable to create or update post' }, status: :unprocessable_entity
     end
@@ -48,7 +47,7 @@ class ::UserFeedback::RatingsController < ::ApplicationController
 
   private
 
-  # Create a first post, if not the first rating will be omitted
+  # Create a first post, otherwise the first rating will be omitted
   def ensure_topic_existence
     @user = User.find_by(id: params[:user_id])
     raise Discourse::NotFound if @user.blank?

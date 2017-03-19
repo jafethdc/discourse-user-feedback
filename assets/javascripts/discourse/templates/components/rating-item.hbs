@@ -5,7 +5,7 @@
     <span class="title">
     <a href={{item.userUrl}}>{{#if item.acting_name}}{{item.acting_name}}{{else}}{{item.acting_username}}{{/if}}</a>
   </span>
-    <div class="category">{{mount-widget widget="rating" args=item.rating}}</div>
+    <div class="category">{{rating-stars rating=item.rating readOnly=true}}</div>
     {{plugin-outlet name="user-stream-item-header" args=(hash item=item)}}
 </div>
 

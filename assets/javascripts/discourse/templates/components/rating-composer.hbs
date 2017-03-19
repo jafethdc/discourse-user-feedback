@@ -1,0 +1,8 @@
+<div class="rating-composer">
+    {{rating-stars rating=0 readOnly=false action=(action "updateRating")}}
+    <textarea class="rating-textarea" placeholder="Describe your rating here" rows="4"></textarea>
+    <button {{action "save"}} tabindex="5" class="btn btn-primary create {{if disableSubmit 'disabled'}}" title="{{i18n 'composer.title'}}"><i class="fa fa-pencil"></i>{{i18n 'composer.save_edit'}}</button>
+    {{#if loading}}
+        {{loading-spinner size="small"}}
+    {{/if}}
+</div>

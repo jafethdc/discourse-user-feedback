@@ -3,7 +3,7 @@
         {{{model.noContentHelp}}}
     </div>
 {{/if}}
-{{mount-widget widget="rating-composer"}}
+{{rating-composer stream=model}}
 {{#user-stream stream=model}}
     {{#each model.content as |item|}}
         {{rating-item item=item removeBookmark="removeBookmark"}}
