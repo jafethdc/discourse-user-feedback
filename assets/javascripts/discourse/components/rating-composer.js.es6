@@ -13,6 +13,7 @@ export default Ember.Component.extend({
             const self = this;
             this.set('raw', this.$('textarea').val());
             this.set('loading', true);
+            this.set('disableSubmit', true);
             const stream = this.get('stream');
             const user = stream.get('user');
 
@@ -28,9 +29,16 @@ export default Ember.Component.extend({
                 copy.pushObject(action);
                 stream.get('content').insertAt(0, UserAction.collapseStream(copy)[0]);
                 stream.set('itemsLoaded', stream.get('itemsLoaded') + 1)
+                stream.set('rating', 0);
+                self.get('starsComponent').set('rating', 0);
+                self.$('textarea').val('');
+                self.set('disableSubmit', false);
             }).finally(function(){
                 self.set('loading', false);
             });
+        },
+        setStars(component){
+            this.set('starsComponent', component);
         }
     },
 });

@@ -17,9 +17,20 @@ export default Ember.Component.extend({
             this.$().css('cursor', 'pointer');
         }
         this.$().css('display', 'inline-block');
+
+        if(this.get('owner') !== undefined){
+            this.get('owner').send('setStars', this);
+        }
     },
     click(event){
         let rating = this.getTarget(event.pageX);
+        this.set('rating', rating);
+        if(this.get('action') !== undefined){
+            this.get('action')(rating);
+        }
+    },
+    updateStars: function(){
+        let rating = this.get('rating');
         let stars = this.$('.star-icon');
         stars.each(function(index, element){
             if(index < rating){
@@ -28,10 +39,8 @@ export default Ember.Component.extend({
                 $(element).removeClass('full');
             }
         });
-        if(this.get('action') !== undefined){
-            this.get('action')(rating);
-        }
-    },
+    }.observes('rating'),
+
     getTarget(x){
         const starsNumber = this.get('starsNumber');
         return Math.ceil((starsNumber * (x - this.$().offset().left) / this.$().width()));

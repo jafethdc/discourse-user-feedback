@@ -3,7 +3,11 @@
         {{{model.noContentHelp}}}
     </div>
 {{/if}}
-{{rating-composer stream=model}}
+
+{{#unless model.isCurrentUser}}
+    {{rating-composer stream=model}}
+{{/unless}}
+
 {{#user-stream stream=model}}
     {{#each model.content as |item|}}
         {{rating-item item=item removeBookmark="removeBookmark"}}
