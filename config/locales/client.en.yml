@@ -4,5 +4,5 @@ en:
       label: "Feedback"
       rating_missing: "The minimum rating is 1!"
       comment_missing: "Your comment shouldn't be empty!"
-      textarea_placeholder: "Comment why you gave that rating"
+      textarea_placeholder: "Add a comment"
       submit_button: "Submit!"

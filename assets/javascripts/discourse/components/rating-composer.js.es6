@@ -4,7 +4,9 @@ import { ajax } from 'discourse/lib/ajax'
 import InputValidation from 'discourse/models/input-validation';
 
 export default Ember.Component.extend({
-    raw: '',
+    raw: function(){
+        return this.$('textarea').val();
+    }.property(),
     rating: 0,
     actions: {
         updateRating(rating){
@@ -12,10 +14,11 @@ export default Ember.Component.extend({
         },
         save(){
             if(!this.valid()){ return; }
-            const self = this;
-            this.set('raw', this.$('textarea').val());
+
             this.set('loading', true);
             this.set('disableSubmit', true);
+
+            const self = this;
             const stream = this.get('stream');
             const user = stream.get('user');
 
@@ -31,12 +34,13 @@ export default Ember.Component.extend({
                 copy.pushObject(action);
                 stream.get('content').insertAt(0, UserAction.collapseStream(copy)[0]);
                 stream.set('itemsLoaded', stream.get('itemsLoaded') + 1);
-                stream.set('rating', 0);
+
                 self.get('starsComponent').set('rating', 0);
                 self.$('textarea').val('');
-                self.set('disableSubmit', false);
+
             }).finally(function(){
                 self.set('loading', false);
+                self.set('disableSubmit', false);
             });
         },
         setStars(component){

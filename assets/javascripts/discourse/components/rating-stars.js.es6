@@ -60,6 +60,6 @@ export default Ember.Component.extend({
 
     getTarget(x){
         const starsNumber = this.get('starsNumber');
-        return Math.ceil((starsNumber * (x - this.$().offset().left) / this.$('.rating-stars').width()));
+        return Math.ceil((starsNumber * (x - this.$('.rating-stars').offset().left) / this.$('.rating-stars').width()));
     }
 });
