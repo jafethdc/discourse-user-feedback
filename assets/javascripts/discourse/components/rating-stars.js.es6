@@ -1,3 +1,6 @@
+import InputValidation from 'discourse/models/input-validation';
+import { default as computed, on } from 'ember-addons/ember-computed-decorators';
+
 export default Ember.Component.extend({
     starsNumber: 5,
     readOnly: true,
@@ -14,9 +17,11 @@ export default Ember.Component.extend({
     didInsertElement(){
         this._super(...arguments);
         if(this.get('readOnly') === false){
-            this.$().css('cursor', 'pointer');
+            this.$('.rating-stars').css('cursor', 'pointer');
         }
-        this.$().css('display', 'inline-block');
+
+        this.$('.popup-tip').css('left', this.$('.rating-stars').offset().left + this.$('.rating-stars').width() + 20);
+        // this.$().css('display', 'inline-block');
 
         if(this.get('owner') !== undefined){
             this.get('owner').send('setStars', this);
@@ -24,9 +29,11 @@ export default Ember.Component.extend({
     },
     click(event){
         let rating = this.getTarget(event.pageX);
-        this.set('rating', rating);
-        if(this.get('action') !== undefined){
-            this.get('action')(rating);
+        if(rating <= this.get('starsNumber')){
+            this.set('rating', rating);
+            if(this.get('action') !== undefined){
+                this.get('action')(rating);
+            }
         }
     },
     updateStars: function(){
@@ -41,8 +48,18 @@ export default Ember.Component.extend({
         });
     }.observes('rating'),
 
+    validateStars(){
+        if(!this.get('rating')>0){
+            this.set('starsValidation', InputValidation.create({ failed: true, reason: 'You must set at least a rating of 1!', lastShownAt: Date.now()}));
+            return false;
+        }else{
+            this.set('starsValidation', undefined);
+            return true;
+        }
+    },
+
     getTarget(x){
         const starsNumber = this.get('starsNumber');
-        return Math.ceil((starsNumber * (x - this.$().offset().left) / this.$().width()));
+        return Math.ceil((starsNumber * (x - this.$().offset().left) / this.$('.rating-stars').width()));
     }
 });

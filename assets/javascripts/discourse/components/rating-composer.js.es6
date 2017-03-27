@@ -1,6 +1,7 @@
 import { emojiUnescape } from 'discourse/lib/text';
 import UserAction from 'discourse/models/user-action';
 import { ajax } from 'discourse/lib/ajax'
+import InputValidation from 'discourse/models/input-validation';
 
 export default Ember.Component.extend({
     raw: '',
@@ -10,6 +11,7 @@ export default Ember.Component.extend({
             this.set('rating', rating);
         },
         save(){
+            if(!this.valid()){ return; }
             const self = this;
             this.set('raw', this.$('textarea').val());
             this.set('loading', true);
@@ -28,7 +30,7 @@ export default Ember.Component.extend({
                 const copy = Em.A();
                 copy.pushObject(action);
                 stream.get('content').insertAt(0, UserAction.collapseStream(copy)[0]);
-                stream.set('itemsLoaded', stream.get('itemsLoaded') + 1)
+                stream.set('itemsLoaded', stream.get('itemsLoaded') + 1);
                 stream.set('rating', 0);
                 self.get('starsComponent').set('rating', 0);
                 self.$('textarea').val('');
@@ -39,6 +41,21 @@ export default Ember.Component.extend({
         },
         setStars(component){
             this.set('starsComponent', component);
-        }
+        },
     },
+    valid(){
+        let starsValid = this.get('starsComponent').validateStars();
+        let textareaValid = this.validateTextarea();
+        return starsValid && textareaValid;
+    },
+    validateTextarea(){
+        if((this.$('textarea').val() === '')){
+            this.set('textareaValidation', InputValidation.create({ failed: true, reason: 'Your comment cannot be empty!', lastShownAt: Date.now()}));
+            return false;
+        }else{
+            this.set('textareaValidation', undefined);
+            return true;
+        }
+    }
+
 });

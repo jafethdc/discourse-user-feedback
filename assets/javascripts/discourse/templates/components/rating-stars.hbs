@@ -1,5 +1,8 @@
-<div class="rating-stars">
-    {{#each stars as |star|}}
-        <span class="star-icon {{if star.full 'full' ''}}">☆</span>
-    {{/each}}
+<div style="padding-right: 20px;">
+    {{popup-input-tip validation=starsValidation}}
+    <div class="rating-stars">
+        {{#each stars as |star|}}
+            <span class="star-icon {{if star.full 'full' ''}}">☆</span>
+        {{/each}}
+    </div>
 </div>
