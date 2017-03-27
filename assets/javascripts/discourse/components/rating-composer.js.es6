@@ -50,7 +50,7 @@ export default Ember.Component.extend({
     },
     validateTextarea(){
         if((this.$('textarea').val() === '')){
-            this.set('textareaValidation', InputValidation.create({ failed: true, reason: 'Your comment cannot be empty!', lastShownAt: Date.now()}));
+            this.set('textareaValidation', InputValidation.create({ failed: true, reason: I18n.t('user_feedback.comment_missing'), lastShownAt: Date.now()}));
             return false;
         }else{
             this.set('textareaValidation', undefined);

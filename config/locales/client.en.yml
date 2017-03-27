@@ -1,4 +1,8 @@
 en:
   js:
-    user-feedback:
+    user_feedback:
       label: "Feedback"
+      rating_missing: "The minimum rating is 1!"
+      comment_missing: "Your comment shouldn't be empty!"
+      textarea_placeholder: "Comment why you gave that rating"
+      submit_button: "Submit!"

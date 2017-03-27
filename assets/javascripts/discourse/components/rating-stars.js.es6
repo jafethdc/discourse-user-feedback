@@ -50,7 +50,7 @@ export default Ember.Component.extend({
 
     validateStars(){
         if(!this.get('rating')>0){
-            this.set('starsValidation', InputValidation.create({ failed: true, reason: 'You must set at least a rating of 1!', lastShownAt: Date.now()}));
+            this.set('starsValidation', InputValidation.create({ failed: true, reason: I18n.t('user_feedback.rating_missing'), lastShownAt: Date.now()}));
             return false;
         }else{
             this.set('starsValidation', undefined);
