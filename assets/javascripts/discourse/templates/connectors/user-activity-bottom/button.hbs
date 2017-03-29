@@ -1,5 +1,8 @@
-<li>
-    {{#link-to 'userActivity.feedback'}}
-        <i class="glyph fa fa-feedback"></i>{{i18n 'user_feedback.label'}}
-    {{/link-to}}
-</li>
+{{#if siteSettings.user_feedback_enabled}}
+    <li>
+        {{#link-to 'userActivity.feedback'}}
+            <i class="glyph fa fa-feedback"></i>{{i18n 'user_feedback.label'}}
+        {{/link-to}}
+    </li>
+{{/if}}
+

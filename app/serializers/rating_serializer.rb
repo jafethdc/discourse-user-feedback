@@ -3,6 +3,7 @@ class ::UserFeedback::RatingSerializer < ActiveModel::Serializer
   attributes :action_type,
              :created_at,
              :excerpt,
+             :raw,
              :avatar_template,
              :acting_avatar_template,
              :slug,

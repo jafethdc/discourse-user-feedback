@@ -2,7 +2,7 @@ en:
   js:
     user_feedback:
       label: "Feedback"
-      rating_missing: "The minimum rating is 1!"
-      comment_missing: "Your comment shouldn't be empty!"
+      rating_missing: "Rating can't be 0"
+      comment_missing: "Comment can't be empty"
       textarea_placeholder: "Add a comment"
       submit_button: "Submit!"

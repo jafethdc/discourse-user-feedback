@@ -24,6 +24,7 @@ UserAction.instance_eval do
           u.username acting_username, u.name acting_name, u.id acting_user_id,
           u.uploaded_avatar_id acting_uploaded_avatar_id,
           coalesce(p.cooked, p2.cooked) cooked,
+          p.raw,
           CASE WHEN coalesce(p.deleted_at, p2.deleted_at, t.deleted_at) IS NULL THEN false ELSE true END deleted,
           p.hidden,
           p.post_type,

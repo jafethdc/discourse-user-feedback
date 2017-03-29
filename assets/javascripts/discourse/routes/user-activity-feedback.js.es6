@@ -4,6 +4,11 @@ import RatingsStream from '../models/ratings-stream';
 
 export default UserActivityStreamRoute.extend({
     userActionType: UserAction.TYPES["posts"],
+    beforeModel(transition){
+        if(!this.siteSettings.user_feedback_enabled){
+            this.transitionTo('userActivity', this.modelFor("user"));
+        }
+    },
     model(){
         return RatingsStream.create({ user: this.modelFor("user") });
     },

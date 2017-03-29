@@ -37,9 +37,29 @@
 .rating-textarea{
   width: 100%;
   display: block;
+  resize: none;
 }
 
 .rating-composer{
   padding-bottom: 20px;
   border-bottom: 1px solid #e9e9e9;
+}
+
+.rating-editor{
+  .popup-tip{
+    .close{
+      padding: 0;
+      margin-left: 10px;
+    }
+  }
+}
+
+.rating-stars-container{
+  padding-right: 20px;
+  .popup-tip{
+    .close{
+      padding: 0;
+      margin-left: 10px;
+    }
+  }
 }

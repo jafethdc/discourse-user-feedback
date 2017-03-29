@@ -6,7 +6,6 @@ class ::UserFeedback::RatingsController < ::ApplicationController
   def index
     per_chunk = 30
     offset = params[:offset].to_i
-    help_key = params['no_results_help_key']
 
     opts = { user_id: @user.id,
              user: @user,
@@ -18,21 +17,7 @@ class ::UserFeedback::RatingsController < ::ApplicationController
              ignore_private_messages: true }
 
     stream = UserAction.ratings(opts).to_a
-
-    if stream.length == 0 && help_key
-      if @user.id == guardian.user.try(:id)
-        help_key += ".self"
-      else
-        help_key += ".others"
-      end
-      render json: {
-          user_action: [],
-          no_results_help: I18n.t(help_key)
-      }
-    else
-      render_serialized(stream, UserFeedback::RatingSerializer, root: 'user_actions')
-    end
-
+    render_serialized(stream, UserFeedback::RatingSerializer, root: 'user_actions')
   end
 
   def create
@@ -41,7 +26,7 @@ class ::UserFeedback::RatingsController < ::ApplicationController
       action = UserAction.where(target_post_id: rating.id, action_type: UserAction::REPLY).first
       render_serialized(UserAction.ratings(action_id: action.id).first, UserFeedback::RatingSerializer)
     else
-      render json: { errors: 'Unable to create or update post' }, status: :unprocessable_entity
+      render json: { errors: rating.errors.full_messages }, status: :unprocessable_entity
     end
   end
 
