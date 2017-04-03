@@ -2,3 +2,6 @@ plugins:
   user_feedback_enabled:
     default: true
     client: true
+  user_feedback_notifications_enabled:
+    default: false
+    client: true

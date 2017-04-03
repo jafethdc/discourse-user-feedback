@@ -2,3 +2,4 @@ en:
   site_settings:
     user_feedback_enabled: "Enable feedback posts on users profiles"
     user_feedback_topic_id: "Feedback topic id"
+    user_feedback_notifications_enabled: "Enable notifications"

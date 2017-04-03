@@ -4,9 +4,6 @@ import { ajax } from 'discourse/lib/ajax'
 import InputValidation from 'discourse/models/input-validation';
 
 export default Ember.Component.extend({
-    raw: function(){
-        return this.$('textarea').val();
-    }.property(),
     rating: 0,
     actions: {
         updateRating(rating){
@@ -25,7 +22,7 @@ export default Ember.Component.extend({
             ajax(`/user-feedback/users/${user.id}.json`, {
                 type: 'POST',
                 data: {
-                    raw: self.get('raw'),
+                    raw: self.$('textarea').val(),
                     rating: self.get('rating')
                 }
             }).then(function (data) {
@@ -37,7 +34,6 @@ export default Ember.Component.extend({
 
                 self.get('starsComponent').set('rating', 0);
                 self.$('textarea').val('');
-
             }).finally(function(){
                 self.set('loading', false);
                 self.set('disableSubmit', false);

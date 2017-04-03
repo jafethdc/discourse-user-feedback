@@ -6,3 +6,4 @@ en:
       comment_missing: "Comment can't be empty"
       textarea_placeholder: "Add a comment"
       submit_button: "Submit!"
+      notification: "<span class='star-icon full'>☆</span><a href='/users/{{description}}/activity/feedback'><span> {{username}}</span> left you a rating!</a>"

@@ -24,6 +24,23 @@ class ::UserFeedback::RatingsController < ::ApplicationController
     rating = PostCreator.new(current_user, rating_params).create
     if rating.persisted?
       action = UserAction.where(target_post_id: rating.id, action_type: UserAction::REPLY).first
+
+      if SiteSetting.user_feedback_notifications_enabled
+        data = {
+            topic_title: @user.username,
+            original_post_id: rating.id,
+            original_post_type: rating.post_type,
+            original_username: rating.username,
+            display_username: rating.username,
+            message: 'user_feedback.notification'
+        }
+        Notification.create!(user_id: @user.id,
+                             notification_type: Notification.types[:custom],
+                             #topic_id: rating.topic_id,
+                             post_number: rating.post_number,
+                             data: data.to_json)
+      end
+
       render_serialized(UserAction.ratings(action_id: action.id).first, UserFeedback::RatingSerializer)
     else
       render json: { errors: rating.errors.full_messages }, status: :unprocessable_entity
