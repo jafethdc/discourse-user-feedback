@@ -34,6 +34,12 @@ after_initialize do
       object.custom_fields['feedback_topic_id']
     }
 
+    add_to_serializer(:user, :average_rating, false){
+      feedback_topic = Topic.find(object.custom_fields['feedback_topic_id'])
+      ratings = feedback_topic.posts[1..-1]
+      ratings.inject(0) { |sum, p| sum + p.custom_fields['feedback_rating'].to_i } / ratings.size
+    }
+
     # We could reuse UserActionSerializer, but rating is not a property applicable to all the user actions...
     # add_to_serializer(:user_action, :rating, false) {
     #   Post.find(object.post_id).custom_fields['feedback_rating']
