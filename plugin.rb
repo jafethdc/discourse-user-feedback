@@ -36,7 +36,8 @@ after_initialize do
 
     add_to_serializer(:user, :average_rating, false){
       feedback_topic = Topic.find(object.custom_fields['feedback_topic_id'])
-      ratings = feedback_topic.posts[1..-1]
+      # this can be improved
+      ratings = feedback_topic.posts.to_a.delete_if { |p| !p.custom_fields.key?('feedback_rating') }
       ratings.present? ? ratings.inject(0) { |sum, p| sum + p.custom_fields['feedback_rating'].to_i } / ratings.size : 0
     }
 
