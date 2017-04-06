@@ -38,7 +38,8 @@ after_initialize do
       feedback_topic = Topic.find(object.custom_fields['feedback_topic_id'])
       # this can be improved
       ratings = feedback_topic.posts.to_a.delete_if { |p| !p.custom_fields.key?('feedback_rating') }
-      ratings.present? ? ratings.inject(0) { |sum, p| sum + p.custom_fields['feedback_rating'].to_i } / ratings.size : 0
+      average = ratings.present? ? ratings.inject(0) { |sum, p| sum + p.custom_fields['feedback_rating'].to_i } / ratings.size.to_f : 0
+      average.round
     }
 
     # We could reuse UserActionSerializer, but rating is not a property applicable to all the user actions...
