@@ -2,11 +2,11 @@
 
 ## Features
 * Go to /users/[username]/activity/feedback to see that user's feedbacks left by others.
-* Right there you can leave your feedback too!
+* In that same page you can leave your feedback for the user.
+* You can see an average rating in the user's profile as well as in the user card.
 
 ## TO-DO
 * Trigger a notification when someone gives you feedback.
-* Show feedback stats at the top of the feedback page.
 
 ## Installation
 
