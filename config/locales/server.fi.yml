@@ -1,0 +1,5 @@
+fi:
+  site_settings:
+    user_feedback_enabled: "Ota käyttöön palauteviestit käyttäjäsivuilla"
+    user_feedback_topic_id: "Palauteketjun ID"
+    user_feedback_notifications_enabled: "Ota ilmoitukset käyttöön"
