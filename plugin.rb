@@ -29,24 +29,20 @@ after_initialize do
 
   User.register_custom_field_type('feedback_topic_id', :integer)
 
-  if SiteSetting.user_feedback_enabled
-    add_to_serializer(:user, :feedback_topic_id, false) {
-      object.custom_fields['feedback_topic_id']
-    }
+  add_to_serializer(:user, :feedback_topic_id) {
+    object.custom_fields['feedback_topic_id']
+  }
 
-    add_to_serializer(:user, :average_rating, false){
-      feedback_topic = Topic.find(object.custom_fields['feedback_topic_id'])
-      # this can be improved
-      ratings = feedback_topic.posts.to_a.delete_if { |p| !p.custom_fields.key?('feedback_rating') }
-      average = ratings.present? ? ratings.inject(0) { |sum, p| sum + p.custom_fields['feedback_rating'].to_i } / ratings.size.to_f : 0
-      average.round
-    }
+  add_to_serializer(:user, :average_rating) {
+    feedback_topic = Topic.find(object.custom_fields['feedback_topic_id'])
+    # this can be improved
+    ratings = feedback_topic.posts.to_a.delete_if { |p| !p.custom_fields.key?('feedback_rating') }
+    average = ratings.present? ? ratings.inject(0) { |sum, p| sum + p.custom_fields['feedback_rating'].to_i } / ratings.size.to_f : 0
+    average.round
+  }
 
-    # We could reuse UserActionSerializer, but rating is not a property applicable to all the user actions...
-    # add_to_serializer(:user_action, :rating, false) {
-    #   Post.find(object.post_id).custom_fields['feedback_rating']
-    # }
-  end
-
-
+  # We could reuse UserActionSerializer, but rating is not a property applicable to all the user actions...
+  # add_to_serializer(:user_action, :rating, false) {
+  #   Post.find(object.post_id).custom_fields['feedback_rating']
+  # }
 end
