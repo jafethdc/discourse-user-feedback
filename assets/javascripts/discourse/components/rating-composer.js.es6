@@ -19,7 +19,7 @@ export default Ember.Component.extend({
             const stream = this.get('stream');
             const user = stream.get('user');
 
-            ajax(`/user-feedback/users/${user.id}.json`, {
+            ajax(`/user-feedback/u/${user.id}.json`, {
                 type: 'POST',
                 data: {
                     raw: self.$('textarea').val(),

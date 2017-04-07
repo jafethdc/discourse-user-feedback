@@ -1,6 +1,6 @@
 export default{
     resource: 'user.userActivity',
-    path: '/users/:username/activity',
+    path: '/u/:username/activity',
     map(){
         this.route('feedback');
     }

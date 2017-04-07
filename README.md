@@ -1,7 +1,7 @@
 # Discourse User Feedback
 
 ## Features
-* Go to /users/[username]/activity/feedback to see that user's feedbacks left by others.
+* Go to /u/[username]/activity/feedback to see that user's feedbacks left by others.
 * In that same page you can leave your feedback for the user.
 * You can see an average rating in the user's profile as well as in the user card.
 
@@ -21,7 +21,7 @@ hooks:
           - mkdir -p plugins
           - git clone https://github.com/discourse/docker_manager.git
           - git clone https://github.com/JafethDC/discourse-user-feedback.git
-          
+
 ```
 
 Rebuild your container:
