@@ -28,10 +28,11 @@ export default Ember.Component.extend({
         }
     },
     click(event){
+        if(this.get('readOnly')) { return; }
         let rating = this.getTarget(event.pageX);
         if(rating <= this.get('starsNumber')){
             this.set('rating', rating);
-            if(this.get('action') !== undefined){
+            if(this.get('action') !== null){
                 this.get('action')(rating);
             }
         }

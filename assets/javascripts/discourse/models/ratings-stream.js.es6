@@ -5,7 +5,7 @@ import UserAction from 'discourse/models/user-action';
 import { emojiUnescape } from 'discourse/lib/text';
 
 export default UserStream.extend({
-    baseUrl: url('user.id', 'itemsLoaded', '/user-feedback/users/%@.json?offset=%@'),
+    baseUrl: url('user.id', 'itemsLoaded', '/user-feedback/u/%@.json?offset=%@'),
     findItems(){
         const self = this;
 
