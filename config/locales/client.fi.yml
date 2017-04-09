@@ -3,7 +3,7 @@ en:
     user_feedback:
       label: "Palaute"
       rating_missing: "Arvosana ei voi olla 0"
-      comment_missing: "Kommenttia ei voi jättää tyhjäksi"
+      comment_missing: "Kommenttia on pakollinen"
       textarea_placeholder: "Lisää kommentti"
       submit_button: "Lähetä!"
       notification: "<span class='star-icon full'>☆</span><a href='/u/{{description}}/activity/feedback'><span> {{username}}</span> arvosteli sinut!</a>"
