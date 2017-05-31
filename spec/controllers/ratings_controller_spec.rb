@@ -11,9 +11,10 @@ describe ::UserFeedback::RatingsController, type: :controller do
 
   describe 'GET #index' do
     it 'creates the feedback topic if non existent' do
-      topics_count = user.topics.size
+      system_user = User.find Discourse::SYSTEM_USER_ID
+      topics_count = system_user.topics.size
       xhr :get, :index, user_id: user.id
-      expect(user.topics.reload.size).to eq(topics_count + 1)
+      expect(system_user.topics.reload.size).to eq(topics_count + 1)
     end
 
     it 'sets feedback_topic_id in the user if no existent' do

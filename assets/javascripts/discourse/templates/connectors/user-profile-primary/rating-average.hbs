@@ -1,3 +1,4 @@
 {{#if siteSettings.user_feedback_enabled}}
     {{rating-stars rating=args.model.average_rating readOnly=true}}
+    {{link-to "Feedback page" "userActivity.feedback" args.model.username class="btn btn-primary"}}
 {{/if}}

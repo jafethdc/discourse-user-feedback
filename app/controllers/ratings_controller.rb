@@ -7,9 +7,7 @@ class ::UserFeedback::RatingsController < ::ApplicationController
     per_chunk = 30
     offset = params[:offset].to_i
 
-    opts = { user_id: @user.id,
-             user: @user,
-             target_topic_id: @feedback_topic.id,
+    opts = { target_topic_id: @feedback_topic.id,
              offset: offset,
              limit: per_chunk,
              action_types: [UserAction::REPLY],
@@ -72,9 +70,10 @@ class ::UserFeedback::RatingsController < ::ApplicationController
   end
 
   def create_feedback_topic
-    @feedback_topic = @user.topics.create(title: "Feedback: User #{@user.username}", archetype: :feedback)
+    system_user = User.find Discourse::SYSTEM_USER_ID
+    @feedback_topic = Topic.create(user_id: system_user.id, title: "Feedback: User #{@user.username}", archetype: :feedback)
     @user.custom_fields['feedback_topic_id'] = @feedback_topic.id
     @user.save_custom_fields
-    PostCreator.new(@user, topic_id: @feedback_topic.id, raw: "This is a topic for all the ratings of #{@user.username}", skip_validations: true).create
+    PostCreator.new(system_user, topic_id: @feedback_topic.id, raw: "This is a topic for all the ratings of #{@user.username}", skip_validations: true).create
   end
 end
